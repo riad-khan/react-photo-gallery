@@ -42,7 +42,7 @@ export class header extends Component {
                             <NavLink to="/gallery" className="nav-link">Gallery</NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink to="login" className="nav-link">Login</NavLink>
+                            <NavLink to="/authentication" className="nav-link">Login</NavLink>
                         </NavItem>
                         </Nav>
                     </Collapse>

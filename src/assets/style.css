@@ -1,3 +1,13 @@
 @import url(../component/uiComponent/header.css);
 @import url(../assets/css/componentsCss/gallery.css);
 
+.common-link.right{
+    float: right;
+    font-size: 18px;
+    font-family: 'Times New Roman', Times, serif;
+    color: rgb(98, 25, 236);
+}
+.common-link.right:hover{
+    color: black;
+    text-decoration: none;
+}
