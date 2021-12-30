@@ -4,6 +4,14 @@ const initialState = {
     userId :null,
     authError :null,
     authLoading :null,
+    images:[
+    {title :null,
+    url : null,
+    description :null,
+    id : null,}
+    ],
+    imageLoading:null,
+    imageError : null,
 }   
 
 //Authentication Success//
@@ -15,6 +23,25 @@ export const reducer =(state = initialState,action)=>{
                 ...state,
                 token: action.payload.token,
                 userId :action.payload.userId,
+                authError : '',
+                authLoading : action.payload,
+            }
+        case actionTypes.AUTH_FAILED : 
+            
+            return{
+                ...state,
+                authLoading : action.payload,
+                authError : action.payload
+            }
+        case actionTypes.AUTH_LOADING:
+            return{
+                ...state,
+                authLoading: action.payload,
+            } 
+        case actionTypes.IMAGE_LOADED: 
+            return{
+               ...state,
+               images : action.payload
             }
             default :
                     return state

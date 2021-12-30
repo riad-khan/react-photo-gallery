@@ -1,51 +1,57 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { Redirect, Route } from 'react-router-dom';
+import { CardColumns } from 'reactstrap';
+import { fetchImages } from '../../redux/imageActionCreators/imageAction';
+import GalleryItem from './galleryItem';
+
+
+
+
+
+
+const mapDispatchToProps = dispatch =>{
+    return{
+        fetchImage : ()=>dispatch(fetchImages())
+    }
+};
+const mapStateToProps = state =>{
+    return{
+        images : state.images
+    }
+}
 
 export class Gallery extends Component {
+    state ={
+        selectImage : null ,
+    }
+    componentDidMount(){
+        this.props.fetchImage();
+    }
+
+    handleSelectImage=images=>{
+        // this.setState({
+        //     selectImage : images
+        // })
+
+        this.props.history.push('/details',{image : images})
+    
+    }
     render() {
+        const images  = this.props.images.map(item =>{
+            return (<GalleryItem images={item} key={item.id} handleSelectImage = {this.handleSelectImage}  />)
+        })
         return (
             <div className='container'>
                 <div className='row'>
-                <div className="col-lg-4 col-md-12 mb-4 mb-lg-0">
-                    <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
-                    className="w-100 shadow-1-strong rounded mb-4"
-                    alt="Boat on Calm Water"
-                    />
+               
 
-                    <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain1.webp"
-                    className="w-100 shadow-1-strong rounded mb-4"
-                    alt="Wintry Mountain Landscape"
-                    />
-                </div>
-
-                <div className="col-lg-4 mb-4 mb-lg-0">
-                    <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain2.webp"
-                    className="w-100 shadow-1-strong rounded mb-4"
-                    alt="Mountains in the Clouds"
-                    />
-
-                    <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(73).webp"
-                    className="w-100 shadow-1-strong rounded mb-4"
-                    alt="Boat on Calm Water"
-                    />
-                </div>
-
-                <div className="col-lg-4 mb-4 mb-lg-0">
-                    <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/Nature/4-col/img%20(18).webp"
-                    className="w-100 shadow-1-strong rounded mb-4"
-                    alt="Waves at Sea"
-                    />
-
-                    <img
-                    src="https://mdbcdn.b-cdn.net/img/Photos/Vertical/mountain3.webp"
-                    className="w-100 shadow-1-strong rounded mb-4"
-                    alt="Yosemite National Park"
-                    />
-                </div>
+                   <CardColumns>
+                   {images}
+                   </CardColumns>
+                    
+                   
+           
                 </div>
                
             </div>
@@ -53,4 +59,4 @@ export class Gallery extends Component {
     }
 }
 
-export default Gallery
+export default connect(mapStateToProps,mapDispatchToProps) (Gallery)

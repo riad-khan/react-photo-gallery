@@ -24,6 +24,7 @@ export const authLoading = isLoading =>{
     }
 };
 export const Auth = (email,password,mode)=>dispatch =>{
+     dispatch(authLoading(true))
     const formData = {
         email : email,
         password : password,
@@ -36,12 +37,15 @@ export const Auth = (email,password,mode)=>dispatch =>{
         appUrl = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='
     };
     axios.post(appUrl + appKey , formData)
-    .then(Response =>{
-        localStorage.setItem('token',Response.data.idToken);
-        localStorage.setItem('userId',Response.data.localId)
-        dispatch(authSuccess(Response.data.idToken , Response.data.localId))
+    .then(response =>{
+        dispatch(authLoading(false))
+        localStorage.setItem('token',response.data.idToken);
+        localStorage.setItem('userId',response.data.localId)
+        dispatch(authSuccess(response.data.idToken , response.data.localId))
     })
-    .catch(errMsg => console.log(errMsg))
+    .catch(error =>{ 
+         dispatch(authLoading(false))
+        dispatch(AuthFailed(error.response.data.error.message))})
 };
 export const authCheck = () => dispatch =>{
     const token = localStorage.getItem('token');

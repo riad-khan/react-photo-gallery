@@ -9,6 +9,7 @@
     "axios": "^0.24.0",
     "bootstrap": "4.0.0",
     "formik": "^2.2.9",
+    "noty": "^3.2.0-beta-deprecated",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.6",

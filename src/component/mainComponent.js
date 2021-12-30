@@ -6,6 +6,8 @@ import Login from './auth/auth';
 import Gallery from './body/Gallery';
 import { connect } from 'react-redux';
  import { authCheck } from '../redux/actionCreators';
+import ImageDetails from './body/imageDetails';
+
 
 const mapStateToProps = state =>{
     return{
@@ -39,6 +41,7 @@ export class mainComponent extends Component {
             <Switch>
             <Route path='/' exact component={Home} />
             <Route path='/gallery'  component={Gallery} />
+            <Route path='/details' component={ImageDetails}></Route>
             <Redirect to='/' />
            </Switch>
            )
