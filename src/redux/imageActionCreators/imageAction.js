@@ -31,6 +31,6 @@ export const fetchImages =()=>dispatch=>{
        
     })
     .catch(error =>{
-            dispatch(imageFailed(error.response.data.error.message));
+            dispatch(imageFailed(error.response.status));
     })
 }

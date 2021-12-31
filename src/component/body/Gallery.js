@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Redirect, Route } from 'react-router-dom';
-import { CardColumns } from 'reactstrap';
+
+import { Alert, CardColumns } from 'reactstrap';
 import { fetchImages } from '../../redux/imageActionCreators/imageAction';
 import GalleryItem from './galleryItem';
+import Spinner from '../Loader/spinner';
+import '../Loader/loader.css';
 
 
 
@@ -17,17 +19,22 @@ const mapDispatchToProps = dispatch =>{
 };
 const mapStateToProps = state =>{
     return{
-        images : state.images
+        images : state.images,
+        imageLoading : state.imageLoading,
+        imageError : state.imageError
     }
 }
 
 export class Gallery extends Component {
     state ={
         selectImage : null ,
+        
     }
     componentDidMount(){
         this.props.fetchImage();
+       
     }
+  
 
     handleSelectImage=images=>{
         // this.setState({
@@ -38,18 +45,39 @@ export class Gallery extends Component {
     
     }
     render() {
-        const images  = this.props.images.map(item =>{
-            return (<GalleryItem images={item} key={item.id} handleSelectImage = {this.handleSelectImage}  />)
-        })
+            console.log(this.props.imageError)
+            let images = null;
+            let errorMsg = null;
+           
+            if(this.props.imageError !== null){
+                errorMsg = (
+                <Alert className='col-lg-6 justify-content-center' color='danger'>{this.props.imageError}</Alert>
+                   
+                )
+            }
+            let spinner  = null;
+            if(this.props.imageLoading === true){
+                spinner = (<Spinner />)
+            }else{
+                 images  = this.props.images.map(item =>{
+                    return (<GalleryItem images={item} key={item.id} handleSelectImage = {this.handleSelectImage}  />)
+                })
+            }
+       
         return (
             <div className='container'>
                 <div className='row'>
-               
+                {spinner}
 
-                   <CardColumns>
-                   {images}
-                   </CardColumns>
-                    
+                {errorMsg !== null ? errorMsg :
+
+                    <CardColumns>
+                    {images}
+                    </CardColumns>
+                
+                }
+                  
+                
                    
            
                 </div>

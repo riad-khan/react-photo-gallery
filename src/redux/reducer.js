@@ -41,8 +41,27 @@ export const reducer =(state = initialState,action)=>{
         case actionTypes.IMAGE_LOADED: 
             return{
                ...state,
-               images : action.payload
+               images : action.payload,
+               imageLoading : action.payload
             }
+
+        case actionTypes.IMAGE_LOADING:
+            return{
+                ...state,
+                imageLoading : action.payload
+            }
+        case actionTypes.IMAGE_FAILED :
+            let errMsg = null;
+            if(action.payload === 404){
+                errMsg = "Content Not Found"
+            }
+            return{
+                ...state,
+                imageError : errMsg,
+                imageLoading : action.payload
+
+
+            }    
             default :
                     return state
     }
